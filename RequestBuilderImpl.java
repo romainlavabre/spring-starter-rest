@@ -142,7 +142,40 @@ public class RequestBuilderImpl implements RequestBuilder {
 
 
     @Override
+    public Response buildAndSend( String responseMedia ) {
+        if ( responseMedia.equals( RESPONSE_JSON ) ) {
+            return buildAndSend();
+        }
+
+        HttpResponse< String > response = null;
+
+        try {
+            if ( this.multipartBody != null ) {
+                response = this.multipartBody.asString();
+            } else if ( this.requestBodyEntity != null ) {
+                response = this.requestBodyEntity.asString();
+            } else {
+                response = this.requestWithBody.asString();
+            }
+        } catch ( final Throwable ignored ) {
+        }
+
+        this.requestWithBody   = null;
+        this.requestBodyEntity = null;
+        this.multipartBody     = null;
+
+        if ( response != null ) {
+            return (new ResponseImpl()).supplyString( response );
+        }
+
+        return (new ResponseImpl()).supply();
+    }
+
+
+    @Override
     public Response buildAndSend() {
+        requestBodyEntity.asString();
+
         HttpResponse< JsonNode > response = null;
 
         try {
@@ -161,7 +194,7 @@ public class RequestBuilderImpl implements RequestBuilder {
         this.multipartBody     = null;
 
         if ( response != null ) {
-            return (new ResponseImpl()).supply( response );
+            return (new ResponseImpl()).supplyJson( response );
         }
 
         return (new ResponseImpl()).supply();

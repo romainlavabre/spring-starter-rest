@@ -18,6 +18,9 @@ public interface RequestBuilder {
     String PATCH            = "PATCH";
     String DELETE           = "DELETE";
     String OPTIONS          = "OPTIONS";
+    String RESPONSE_JSON    = "JSON";
+    String RESPONSE_HTML    = "HTML";
+    String RESPONSE_XML     = "XML";
 
 
     RequestBuilder init( String method, String url );
@@ -53,5 +56,14 @@ public interface RequestBuilder {
     RequestBuilder addHeader( String header, Integer value );
 
 
+    /**
+     * @return Response in choices media
+     */
+    Response buildAndSend( String media );
+
+
+    /**
+     * @return Response in json media
+     */
     Response buildAndSend();
 }
