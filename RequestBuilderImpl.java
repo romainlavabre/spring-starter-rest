@@ -174,8 +174,6 @@ public class RequestBuilderImpl implements RequestBuilder {
 
     @Override
     public Response buildAndSend() {
-        requestBodyEntity.asString();
-
         HttpResponse< JsonNode > response = null;
 
         try {
