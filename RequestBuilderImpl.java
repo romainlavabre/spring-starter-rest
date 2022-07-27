@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import kong.unirest.*;
 
 import java.io.File;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,22 @@ public class RequestBuilderImpl implements RequestBuilder {
     public RequestBuilder init( final String method, final String url ) {
 
         this.requestWithBody = Unirest.request( method, url );
+
+        return this;
+    }
+
+
+    @Override
+    public RequestBuilder withBasicAuth( String username, String password ) {
+        addHeader( "Authorization", "Basic " + Base64.getEncoder().encodeToString( String.valueOf( username + ":" + password ).getBytes() ) );
+
+        return this;
+    }
+
+
+    @Override
+    public RequestBuilder withBearerToken( String token ) {
+        addHeader( "Authorization", "Bearer " + token );
 
         return this;
     }

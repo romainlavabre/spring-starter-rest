@@ -26,6 +26,12 @@ public interface RequestBuilder {
     RequestBuilder init( String method, String url );
 
 
+    RequestBuilder withBasicAuth( String username, String password );
+
+
+    RequestBuilder withBearerToken( String token );
+
+
     RequestBuilder routeParam( String param, String value );
 
 
