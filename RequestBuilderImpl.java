@@ -1,6 +1,6 @@
 package com.replace.replace.api.rest;
 
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import kong.unirest.*;
 
 import java.io.File;
@@ -98,7 +98,7 @@ public class RequestBuilderImpl implements RequestBuilder {
 
     @Override
     public RequestBuilder jsonBody( final Map< String, Object > json ) {
-        this.requestBodyEntity = this.requestWithBody.body( (new Gson()).toJson( json ) );
+        this.requestBodyEntity = this.requestWithBody.body( (new GsonBuilder().serializeNulls().create()).toJson( json ) );
 
         this.inContentType( RequestBuilder.JSON );
 
@@ -108,7 +108,7 @@ public class RequestBuilderImpl implements RequestBuilder {
 
     @Override
     public RequestBuilder jsonBody( final List< Object > json ) {
-        this.requestBodyEntity = this.requestWithBody.body( (new Gson()).toJson( json ) );
+        this.requestBodyEntity = this.requestWithBody.body( (new GsonBuilder().serializeNulls().create()).toJson( json ) );
 
         this.inContentType( RequestBuilder.JSON );
 
