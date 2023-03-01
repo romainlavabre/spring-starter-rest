@@ -105,6 +105,10 @@ public class ResponseImpl implements Response {
     @Override
     public Map< String, Object > getBodyAsMap() {
         if ( this.responseJson != null ) {
+            if ( responseJson.getBody() == null ) {
+                return new HashMap<>();
+            }
+
             return this.responseJson.getBody().getObject().toMap();
         }
 
@@ -115,6 +119,10 @@ public class ResponseImpl implements Response {
     @Override
     public List< Object > getBodyAsList() {
         if ( this.responseJson != null ) {
+            if ( this.responseJson.getBody() == null ) {
+                return new ArrayList<>();
+            }
+            
             return this.responseJson.getBody().getArray().toList();
         }
 
