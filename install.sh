@@ -25,6 +25,8 @@ CLASSES=(
     "$1/Response.java"
     "$1/ResponseImpl.java"
     "$1/Rest.java"
+    "$1/fix/LocalDateTimeTypeAdapter.java"
+    "$1/fix/ZonedDateTimeTypeAdapter.java"
 )
 
 for CLASS in "${CLASSES[@]}"; do

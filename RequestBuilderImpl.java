@@ -1,9 +1,13 @@
 package com.replace.replace.api.rest;
 
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.replace.replace.api.rest.fix.LocalDateTimeTypeAdapter;
+import com.replace.replace.api.rest.fix.ZonedDateTimeTypeAdapter;
 import kong.unirest.*;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
@@ -98,7 +102,15 @@ public class RequestBuilderImpl implements RequestBuilder {
 
     @Override
     public RequestBuilder jsonBody( final Map< String, Object > json ) {
-        this.requestBodyEntity = this.requestWithBody.body( (new Gson()).toJson( json ) );
+        this.requestBodyEntity = this.requestWithBody.body(
+                (
+                        new GsonBuilder()
+                                .registerTypeAdapter( LocalDateTime.class, new LocalDateTimeTypeAdapter() )
+                                .registerTypeAdapter( ZonedDateTime.class, new ZonedDateTimeTypeAdapter() )
+                                .serializeNulls()
+                                .create()
+                ).toJson( json )
+        );
 
         this.inContentType( RequestBuilder.JSON );
 
@@ -108,7 +120,15 @@ public class RequestBuilderImpl implements RequestBuilder {
 
     @Override
     public RequestBuilder jsonBody( final List< Object > json ) {
-        this.requestBodyEntity = this.requestWithBody.body( (new Gson()).toJson( json ) );
+        this.requestBodyEntity = this.requestWithBody.body(
+                (
+                        new GsonBuilder()
+                                .registerTypeAdapter( LocalDateTime.class, new LocalDateTimeTypeAdapter() )
+                                .registerTypeAdapter( ZonedDateTime.class, new ZonedDateTimeTypeAdapter() )
+                                .serializeNulls()
+                                .create()
+                ).toJson( json )
+        );
 
         this.inContentType( RequestBuilder.JSON );
 
